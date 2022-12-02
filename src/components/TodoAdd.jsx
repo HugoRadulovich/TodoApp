@@ -14,6 +14,10 @@ export const TodoAdd = () => {
 
     }
 
+        const onNewTodo = () => {
+            
+        }
+
     return (
         <form onSubmit={onFormSubmit}>
             <input 
