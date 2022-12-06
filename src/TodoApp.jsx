@@ -1,5 +1,6 @@
-import { useReducer } from "react"
+import { useEffect, useReducer } from "react"
 import { TodoAdd } from "./components/TodoAdd"
+import { TodoList } from "./components/TodoList"
 import { todoReducer } from "./helpers/todoReducer"
 
 
@@ -16,13 +17,47 @@ const initialState = [
     }
 ]
 
+const init = () => {
+    return JSON.parse(localStorage.getItem('todos')) || [];
+}
+
 export const TodoApp = () => {
     
-    const [todos, dispatch] = useReducer(todoReducer,initialState)
+    const [todos, dispatch] = useReducer(todoReducer,initialState, init)
     
+
+    useEffect(() => {
+        localStorage.setItem('todos',JSON.stringify(todos))
+    }, [todos])
+    
+
     const handleNewTodo = (todo) => {
-        console.log({todo})
+        const action = {
+            type: '[TODO] Add Todo',
+            payload: todo,
+        }
+        dispatch(action);
     }
+
+    const handleRemoveTodo = (id) => {
+        const action = {
+            type: '[TODO] Remove Todo',
+            payload: id,
+        }
+
+        dispatch(action);
+    }
+
+
+    const handleToogleTodo = (id) => {
+        const action = {
+            type: '[TODO] Toogle Todo',
+            payload: id
+        }
+
+        dispatch(action);
+    }
+
 
     return (
 
@@ -32,36 +67,26 @@ export const TodoApp = () => {
         
 
         {/* Todo List */}
-
+        <TodoList 
+        todos={todos}
+        onDeleteTodo = {handleRemoveTodo}
+        onToogleTodo = {handleToogleTodo}
+        />
+        
         {/* todo map (
             TodoItem...
         ) */}
 
-        {
-        todos.map(todo=> 
-            <li key= {todo.id}>
-                <span>{todo.description}</span>
-                <button>Borrar</button>
-            </li>
-            )
-        }
+        
 
-        <ul>
-            
-        </ul>
         {/* Fin todo list */}
 
-        <div>
-            <h4>Agregar To-Do</h4>
-            <hr />
-            <button>Agregar</button>
-        </div>
 
         <div className="">
             {/* TodoAdd solamente la parte del form  
             - onNewTodo(todo) implementar
                 {id: new Date()....} */}
-            <TodoAdd/>
+            <TodoAdd onNewTodo={handleNewTodo}/>
         </div>
 
         </>

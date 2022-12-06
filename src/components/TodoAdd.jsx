@@ -1,22 +1,30 @@
 import { useForm } from "../hooks/useForm"
 
 
-export const TodoAdd = () => {
+export const TodoAdd = ({onNewTodo}) => {
 
     const {description, onIpuntChange, onResetForm} = useForm({
         description:'',
     });
 
     const onFormSubmit = (event) => {
+    
         event.preventDefault();
-        console.log(description)
+        // console.log(description)
         if(description.length<= 1) return;
+        
+        
+        const newTodo = {
+            id: new Date().getTime(),
+            description: description,
+            done: false,
+        }
+
+        onNewTodo(newTodo);
+        onResetForm();
 
     }
 
-        const onNewTodo = () => {
-            
-        }
 
     return (
         <form onSubmit={onFormSubmit}>
@@ -24,9 +32,11 @@ export const TodoAdd = () => {
             type="text" 
             className=""
             placeholder="Ingrese tarea a realizar" 
-            onChange = {onIpuntChange}
             name="description"
+            value={description}
+            onChange = {onIpuntChange}
             />
+            <button>Agregar</button>
         </form>
     )
 }
