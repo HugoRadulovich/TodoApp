@@ -28,15 +28,25 @@ export const TodoAdd = ({onNewTodo}) => {
 
     return (
         <form onSubmit={onFormSubmit}>
+            {/* <div class="input-group mb-3">
             <input 
             type="text" 
-            className=""
+            class="form-control" 
+            placeholder="Username" 
+          />
+            </div> */}
+            <div className="d-flex">
+            <input 
+            type="text" 
+            className="form-control"
             placeholder="Ingrese tarea a realizar" 
             name="description"
             value={description}
             onChange = {onIpuntChange}
             />
-            <button>Agregar</button>
+            <button className='btn btn-light'>Agregar</button>
+            </div>
+           
         </form>
     )
 }

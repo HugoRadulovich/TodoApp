@@ -5,7 +5,7 @@ TodoItem
 
 export const TodoList = ({todos,  onDeleteTodo, onToogleTodo}) => {
     return (
-        <ul>
+        <ul className="list-group m-2">
             {
             todos.map(todo=> 
             <TodoItem 
